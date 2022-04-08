@@ -1,4 +1,3 @@
-:%s/\s\+$//
 #include <stdio.h>
 /**
  * main - Entry point 
@@ -22,5 +21,4 @@ putchar(c);
 
 putchar('\n');
 return (0);
-
 }
