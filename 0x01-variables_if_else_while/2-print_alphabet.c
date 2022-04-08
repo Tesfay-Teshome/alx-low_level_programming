@@ -4,7 +4,6 @@
  *
  * Return: Always 0 (Success/correct)
  */
-
 int main(void)
 
 {
