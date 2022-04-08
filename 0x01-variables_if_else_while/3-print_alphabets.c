@@ -1,3 +1,4 @@
+:%s/\s\+$//
 #include <stdio.h>
 /**
  * main - Entry point 
@@ -18,7 +19,6 @@ for (c = 'A'; c <= 'Z'; c++)
 {
 putchar(c);
 }
-
 
 putchar('\n');
 return (0);
