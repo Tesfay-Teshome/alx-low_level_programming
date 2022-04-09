@@ -1,32 +1,34 @@
 #include <stdio.h>
 
 /**
- * main - Entry point
- * combination of three numbers
- * Return: Always 0 (Success/correct)
+ *  main - this program will prints all possible different combinations
+ *  of three digits
+ *  Return: Program will return 0 when exited successfully
  */
 int main(void)
 {
-int dgt1, dgt2, dgt3;
+int a, b, c;
 
-for (dgt1 = 0; dgt1 < 8; dgt1++)
+for (a = 48; a < 58; a++)
 {
-for (dgt2 = dgt1 + 1; dgt2 < 9; dgt2++)
+for (b = 49; b < 58; b++)
 {
-for (dgt3 = dgt2 + 1; dgt3 < 10; dgt3++)
+for (c = 50; c < 58; c++)
 {
-putchar ((dgt1 % 10) + '0');
-putchar ((dgt2 % 10) + '0');
-putchar ((dgt3 % 10) + '0');
-if (dgt1 == 7 && dgt2 == 8 && dgt3 == 9)
-continue;
-putchar (',');
-putchar (' ');
+if (c > b && b > a)
+{
+putchar(a);
+putchar(b);
+putchar(c);
+if (a != 55 || b != 56)
+{
+putchar(',');
+putchar(' ');
 }
 }
 }
-putchar ('\n');
-
-return(0);
-
+}
+}
+putchar('\n');
+return (0);
 }
