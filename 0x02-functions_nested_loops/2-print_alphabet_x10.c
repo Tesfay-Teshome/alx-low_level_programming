@@ -16,12 +16,12 @@ while (count < 10)
 {
 for (alphabet = 'a' ; alphabet <= 'z'; alphabet++)
 {
-_putchar(alphabet);
+_putchar (alphabet);
 }
 
 count++;
-_putchar('\n');
+_putchar ('\n');
 }
 
-return(0);
+return (0);
 }
