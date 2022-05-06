@@ -1,6 +1,8 @@
+#include "main.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <ctype.h>
 /**
  * _isnumber - checks if string is number
  *
