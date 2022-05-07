@@ -1,181 +1,93 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "main.h"
-
-void populateResult(char *dest, char *n1, int n1_len, char *n2, int n2_len);
-int getLengthOfNum(char *str);
-void print_result(char *src, int length);
-
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <ctype.h>
 /**
- * main - entry point, multiplies two numbers
+ * _isnumber - checks if string is number
  *
- * @argc: integer, length of @argv
+ * @s: string
  *
- * @argv: one-dimensional array of strings, arguments of this program
- *
- * Return: 0, success
+ * Return: 1 if number, 0 if not
  */
-
-int main(int argc, char *argv[])
+int _isnumber(char *s)
 {
-	int num1_length, num2_length;
-	char *result;
+	int i, check, d;
 
-	if (argc != 3)
+	d = 0, check = 1;
+	for (i = 0; *(s + i) != 0; i++)
 	{
-		printf("Error\n");
-		exit(98);
-	}
-
-	num1_length = getLengthOfNum(argv[1]);
-
-	if (!num1_length)
-	{
-		printf("Error\n");
-		exit(98);
-	}
-
-	num2_length = getLengthOfNum(argv[2]);
-
-	if (!num2_length)
-	{
-		printf("Error\n");
-		exit(98);
-	}
-
-	result = malloc(num1_length + num2_length);
-
-	if (!result)
-		return (1);
-
-	populateResult(result, argv[1], num1_length, argv[2], num2_length);
-
-	print_result(result, num1_length + num2_length);
-	printf("\n");
-	free(result);
-
-	return (0);
-}
-
-/**
- * getLengthOfNum - length of numbers in a string
- *
- * @str: pointer to string of numbers
- *
- * Return: integer (SUCCESS) or
- * NULL, if string includes char
- */
-
-int getLengthOfNum(char *str)
-{
-	int i = 0;
-
-	while (str[i])
-	{
-		if (str[i] >= '0' && str[i] <= '9')
-			i++;
-		else
-			return ('\0');
-
-	}
-
-	return (i);
-}
-
-/**
- * populateResult - multiplies two numbers stored as string
- * and stores result in @dest
- *
- * @dest: pointer to where @num1 * @num2 should be stored
- *
- * @n1: positive number stored as string in an array
- *
- * @n2: positive number stored as string in an array
- *
- * @n1_len: length of @n1
- *
- * @n2_len: length of @n2
- */
-
-void populateResult(char *dest, char *n1, int n1_len, char *n2, int n2_len)
-{
-	int i, j, k, temp_value, non_carry_value;
-	int carry_value = 0;
-	char *multiplicand, *multiplier;
-
-	if (n1_len > n2_len)
-	{
-		i = n1_len - 1;
-		j = n2_len - 1;
-		multiplicand = n1;
-		multiplier = n2;
-	}
-	else
-	{
-		i = n2_len - 1;
-		j = n1_len - 1;
-		multiplicand = n2;
-		multiplier = n1;
-	}
-
-	while (i >= 0)
-	{
-		k = i;
-
-		while (k >= 0)
+		d = isdigit(*(s + i));
+		if (d == 0)
 		{
-			temp_value = ((multiplicand[k] - '0') * (multiplier[j] - '0'));
-			temp_value += carry_value;
-
-			if (j + 1 <= n2_len - 1 && dest[k + j + 1] >= '0' && dest[k + j + 1] <= '9')
-				temp_value += dest[k + j + 1] - '0';
-
-			if (temp_value < 10)
-			{
-				non_carry_value = temp_value;
-				carry_value = 0;
-			}
-			else
-			{
-				non_carry_value = temp_value % 10;
-				carry_value = temp_value / 10;
-			}
-
-			dest[k + j + 1] = non_carry_value + '0';
-			k--;
+			check = 0;
+			break;
 		}
-
-		if (carry_value)
-			dest[k + j + 1] = carry_value + '0';
-
-		carry_value = 0;
-
-		if (j > 0)
-			j--;
-		else
-			i = -1;
 	}
-
-	free(dest);
-	free(multiplicand);
-	free(multiplier);
+	return (check);
 }
 
 /**
- * print_result - prints numbers stored as string in a memory location
+ * _callocX - reserves memory initialized to 0
  *
- * @src: pointer to memory that stores numbers as strings
+ * @nmemb: # of bytes
  *
- * @length: length of @src
+ * Return: pointer
  */
-
-void print_result(char *src, int length)
+char *_callocX(unsigned int nmemb)
 {
-	int i;
+	unsigned int i;
+	char *p;
 
-	for (i = 0; i < length; i++)
+	p = malloc(nmemb + 1);
+	if (p == 0)
+		return (0);
+	for (i = 0; i < nmemb; i++)
+		p[i] = '0';
+	p[i] = '\0';
+	return (p);
+}
+
+/**
+ * main - multiplies inf numbers
+ *
+ * @argc: # of cmd line args
+ * @argv: cmd line args
+ * Return: No return
+ */
+int main(int argc, char **argv)
+{
+	int i, j, l1, l2, lful, mul, add, ten, ten2, tl, zer = 0;
+	char *res;
+
+	if (argc != 3 || _isnumber(argv[1]) == 0 || _isnumber(argv[2]) == 0)
+		printf("Error\n"), exit(98);
+	if (atoi(argv[1]) == 0 || atoi(argv[2]) == 0)
+		printf("0\n"), exit(0);
+	l1 = strlen(argv[1]), l2 = strlen(argv[2]);
+	lful = l1 + l2;
+	res = _callocX(lful);
+	if (res == 0)
+		printf("Error\n"), exit(98);
+	for (i = l2 - 1; i >= 0; i--)
 	{
-		if (src[i] >= '0' && src[i] <= '9')
-		printf("%c", src[i]);
+		ten = 0, ten2 = 0;
+		for (j = l1 - 1; j >= 0; j--)
+		{
+			tl = i + j + 1;
+			mul = (argv[1][j] - '0') * (argv[2][i] - '0') + ten;
+			ten =  mul / 10;
+			add = (res[tl] - '0') + (mul % 10) + ten2;
+			ten2 = add / 10;
+			res[tl] = (add % 10) + '0';
+		}
+		res[tl - 1] = (ten + ten2) + '0';
 	}
+	if (res[0] == '0')
+		zer = 1;
+	for (; zer < lful; zer++)
+		printf("%c", res[zer]);
+	printf("\n");
+	free(res);
+	return (0);
 }
